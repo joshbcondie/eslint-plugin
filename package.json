@@ -26,7 +26,6 @@
     "clean": "tsc --clean",
     "postclean": "rimraf dist"
   },
-  "type": "module",
   "dependencies": {
     "@typescript-eslint/experimental-utils": "^4.9.0",
     "eslint": "^7.14.0",
