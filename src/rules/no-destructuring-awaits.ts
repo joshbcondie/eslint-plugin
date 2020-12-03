@@ -42,29 +42,33 @@ export default ESLintUtils.RuleCreator(() => '')({
             }
         };
 
-        return {
-            AssignmentExpression(node): void {
-                runRule(node, node.left, node.right, (fixer, resultsVariableName) => [
-                    fixer.replaceText(node.left, `const ${resultsVariableName}`),
-                    fixer.insertTextAfter(
-                        node,
-                        `;\n${context.getSourceCode().getText(node.left)} = ${resultsVariableName}`,
-                    ),
-                ]);
-            },
-            VariableDeclaration(node): void {
-                node.declarations.forEach((declaration) => {
-                    runRule(declaration, declaration.id, declaration.init, (fixer, resultsVariableName) => [
-                        fixer.replaceText(declaration.id, resultsVariableName),
-                        fixer.insertTextAfter(
-                            node,
-                            `;\n${node.kind} ${context
-                                .getSourceCode()
-                                .getText(declaration.id)} = ${resultsVariableName}`,
-                        ),
-                    ]);
-                });
-            },
-        };
+        const filename = context.getFilename();
+        return filename.endsWith('.spec.ts') || filename.endsWith('.test.ts')
+            ? {}
+            : {
+                  AssignmentExpression(node): void {
+                      runRule(node, node.left, node.right, (fixer, resultsVariableName) => [
+                          fixer.replaceText(node.left, `const ${resultsVariableName}`),
+                          fixer.insertTextAfter(
+                              node,
+                              `;\n${context.getSourceCode().getText(node.left)} = ${resultsVariableName}`,
+                          ),
+                      ]);
+                  },
+                  VariableDeclaration(node): void {
+                      node.declarations.forEach((declaration) => {
+                          runRule(declaration, declaration.id, declaration.init, (fixer, resultsVariableName) => [
+                              fixer.replaceText(declaration.id, resultsVariableName),
+                              fixer.insertTextAfter(
+                                  node,
+                                  `;\n${node.kind} ${context
+                                      .getSourceCode()
+                                      .getText(declaration.id)} = ${resultsVariableName}`,
+                              ),
+                          ]);
+                      });
+                  },
+              };
     },
 });
+
