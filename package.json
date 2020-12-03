@@ -20,7 +20,7 @@
     "url": "https://github.com/joshbcondie/eslint-plugin.git",
     "directory": ""
   },
-  "main": "dist/src/index.js",
+  "main": "dist/rules/index.js",
   "scripts": {
     "build": "tsc",
     "clean": "tsc --clean",
