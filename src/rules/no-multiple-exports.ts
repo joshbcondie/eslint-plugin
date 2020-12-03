@@ -18,41 +18,40 @@ export default ESLintUtils.RuleCreator(() => '')({
     },
     defaultOptions: [],
     create(context) {
-        return {
-            ExportNamedDeclaration(node): void {
-                if (
-                    context.getFilename().endsWith('.module.ts') &&
-                    node.declaration?.type === AST_NODE_TYPES.ClassDeclaration &&
-                    node.declaration?.decorators
-                ) {
-                    for (const decorator of node.declaration?.decorators) {
-                        if (
-                            decorator.expression.type === AST_NODE_TYPES.CallExpression &&
-                            decorator.expression.callee.type === AST_NODE_TYPES.Identifier &&
-                            decorator.expression.callee.name === 'NgModule'
-                        ) {
-                            for (const argument of decorator.expression.arguments) {
-                                if (argument.type === AST_NODE_TYPES.ObjectExpression) {
-                                    for (const property of argument.properties) {
-                                        if (
-                                            property.type === AST_NODE_TYPES.Property &&
-                                            property.key.type === AST_NODE_TYPES.Identifier &&
-                                            property.key.name === 'exports' &&
-                                            property.value.type === AST_NODE_TYPES.ArrayExpression &&
-                                            property.value.elements.length > 1
-                                        ) {
-                                            context.report({
-                                                messageId: 'multipleExports',
-                                                node: property,
-                                            });
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-        };
+        return context.getFilename().endsWith('.module.ts')
+            ? {
+                  ExportNamedDeclaration(node): void {
+                      if (node.declaration?.type === AST_NODE_TYPES.ClassDeclaration && node.declaration?.decorators) {
+                          for (const decorator of node.declaration?.decorators) {
+                              if (
+                                  decorator.expression.type === AST_NODE_TYPES.CallExpression &&
+                                  decorator.expression.callee.type === AST_NODE_TYPES.Identifier &&
+                                  decorator.expression.callee.name === 'NgModule'
+                              ) {
+                                  for (const argument of decorator.expression.arguments) {
+                                      if (argument.type === AST_NODE_TYPES.ObjectExpression) {
+                                          for (const property of argument.properties) {
+                                              if (
+                                                  property.type === AST_NODE_TYPES.Property &&
+                                                  property.key.type === AST_NODE_TYPES.Identifier &&
+                                                  property.key.name === 'exports' &&
+                                                  property.value.type === AST_NODE_TYPES.ArrayExpression &&
+                                                  property.value.elements.length > 1
+                                              ) {
+                                                  context.report({
+                                                      messageId: 'multipleExports',
+                                                      node: property,
+                                                  });
+                                              }
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  },
+              }
+            : {};
     },
 });
+
