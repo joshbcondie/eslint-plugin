@@ -23,13 +23,12 @@
   "main": "dist/rules/index.js",
   "scripts": {
     "build": "tsc",
-    "clean": "tsc --clean",
+    "clean": "tsc --build --clean",
     "postclean": "rimraf dist"
   },
   "dependencies": {
-    "@typescript-eslint/experimental-utils": "^4.9.0",
-    "eslint": "^7.14.0",
-    "typescript": "^4.1.2"
-  },
-  "devDependencies": {}
+    "@typescript-eslint/experimental-utils": "^4.8.1",
+    "eslint": "^7.13.0",
+    "typescript": "^3.7.5"
+  }
 }
