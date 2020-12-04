@@ -4,10 +4,9 @@ export default ESLintUtils.RuleCreator(() => '')({
     name: 'quote-i18n-replacements',
     meta: {
         docs: {
-            description: 'TODO',
+            description: '',
             category: 'Best Practices',
             recommended: 'error',
-            suggestion: true,
         },
         fixable: 'code',
         messages: {
@@ -46,3 +45,4 @@ export default ESLintUtils.RuleCreator(() => '')({
         };
     },
 });
+

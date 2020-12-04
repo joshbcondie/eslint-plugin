@@ -4,10 +4,9 @@ export default ESLintUtils.RuleCreator(() => '')({
     name: 'no-multiple-exports',
     meta: {
         docs: {
-            description: 'Disallows exporting multiple items from an NGModule',
+            description: '',
             category: 'Best Practices',
             recommended: 'warn',
-            suggestion: true,
         },
         messages: {
             multipleExports:
